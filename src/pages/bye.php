@@ -1,2 +1,1 @@
-<?php
-$response->setContent('Пока');
+пока

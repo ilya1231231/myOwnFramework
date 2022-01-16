@@ -46,5 +46,14 @@
             'reference' => '0abb51d2f102e00a4eefcf46ba7fec406d245825',
             'dev_requirement' => false,
         ),
+        'symfony/routing' => array(
+            'pretty_version' => 'v6.0.1',
+            'version' => '6.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/routing',
+            'aliases' => array(),
+            'reference' => '362bc14e1187deaef12d1ca0e04bd919580e8e49',
+            'dev_requirement' => false,
+        ),
     ),
 );

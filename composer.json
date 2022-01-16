@@ -1,6 +1,7 @@
 {
     "require": {
         "symfony/http-foundation": "^6.0",
-        "symfony/routing": "^6.0"
+        "symfony/routing": "^6.0",
+        "symfony/http-kernel": "^6.0"
     }
 }

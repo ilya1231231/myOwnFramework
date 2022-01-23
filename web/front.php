@@ -1,14 +1,19 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing;
 use Symfony\Component\HttpKernel;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 //ФРОНТ КОНТРОЛЛЕР
 $request = Request::createFromGlobals();
 $routes = include __DIR__.'/../src/app.php';
+
+//Для кастомной обработки событий при запросах с приоритетами
+$dispatcher = new EventDispatcher();
+$dispatcher->addSubscriber(new Simplex\ContentLengthListener());
+$dispatcher->addSubscriber(new Simplex\GoogleListener());
 
 $context = new Routing\RequestContext();
 //Основываясь на информации, хранящейся в экземпляре "src/app.php" RouteCollection, экземпляр UrlMatcher может совпадать с путями URL
@@ -19,7 +24,7 @@ $argumentResolver = new HttpKernel\Controller\ArgumentResolver();
 
 //не забыть использовать Composer dump autoload
 //переместили все в отдельный класс
-$framework = new Simplex\Framework($matcher, $controllerResolver, $argumentResolver);
+$framework = new Simplex\Framework($dispatcher, $matcher, $controllerResolver, $argumentResolver);
 $response = $framework->handle($request);
 
 $response->send();

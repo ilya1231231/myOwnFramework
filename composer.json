@@ -2,6 +2,8 @@
     "require": {
         "symfony/http-foundation": "^6.0",
         "symfony/routing": "^6.0",
+        "phpunit/phpunit": "^9.5",
+        "symfony/event-dispatcher": "^6.0",
         "symfony/http-kernel": "^6.0"
     },
     "autoload": {

@@ -2,26 +2,30 @@
 
 namespace Simplex;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Calendar\Controller\LeapYearController;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 //Повтроно используемый код фреймворка, который абстрагирует обработку входящих Запросов
 
 class Framework
 {
+    private $dispatcher;
     protected $matcher;
     protected $controllerResolver;
     protected $argumentResolver;
 
     public function __construct(
+        EventDispatcher $dispatcher,
         UrlMatcherInterface $matcher,
         ControllerResolverInterface $controllerResolver,
         ArgumentResolverInterface $argumentResolver)
     {
+        $this->dispatcher = $dispatcher;
         $this->matcher = $matcher;
         $this->controllerResolver = $controllerResolver;
         $this->argumentResolver = $argumentResolver;
@@ -43,9 +47,15 @@ class Framework
 
             return call_user_func_array($controller, $arguments);
         } catch (ResourceNotFoundException $e) {
-            return new Response('Файл не найден', 404);
+            $response = new Response('Файл не найден', 404);
         } catch (\Exception $e) {
-            return new Response('Ошибка сервера', 500);
+            $response =  new Response('Ошибка сервера', 500);
         }
+
+        // развернуть событие ответа
+        $this->dispatcher->dispatch(new ResponseEvent($response, $request), 'response');
+
+        return $response;
+
     }
 }

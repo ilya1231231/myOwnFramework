@@ -25,6 +25,11 @@ $argumentResolver = new HttpKernel\Controller\ArgumentResolver();
 //не забыть использовать Composer dump autoload
 //переместили все в отдельный класс
 $framework = new Simplex\Framework($dispatcher, $matcher, $controllerResolver, $argumentResolver);
+$framework = new HttpKernel\HttpCache\HttpCache(
+    $framework,
+    new HttpKernel\HttpCache\Store(__DIR__.'/../cache')
+);
 $response = $framework->handle($request);
+$framework->handle($request)->send();
 
 $response->send();

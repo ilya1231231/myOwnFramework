@@ -18,6 +18,6 @@ class ContentLengthListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array('response' => array('onResponse', 0));
+        return array('response' => 'onResponse');
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Simplex;
 
+use phpDocumentor\Reflection\Type;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,9 +12,10 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
+
 //Повтроно используемый код фреймворка, который абстрагирует обработку входящих Запросов
 
-class Framework
+class Framework implements HttpKernelInterface
 {
     private $dispatcher;
     protected $matcher;
@@ -31,7 +34,8 @@ class Framework
         $this->argumentResolver = $argumentResolver;
     }
 
-    public function handle(Request $request)
+    //Кеширование
+    public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
     {
         $this->matcher->getContext()->fromRequest($request);
 

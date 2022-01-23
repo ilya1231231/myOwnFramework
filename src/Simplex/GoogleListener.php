@@ -24,6 +24,6 @@ class GoogleListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array('response' => 'onResponse', 1);
+        return array('response' => array('onResponse', -255));
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Simplex;
 
-namespace Simplex;
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class GoogleListener implements EventSubscriberInterface
@@ -24,6 +22,6 @@ class GoogleListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array('response' => array('onResponse', -255));
+        return array('response' => array('onResponse', 1000));
     }
 }
